@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Impacto — Bolivia 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/script.js" defer></script>
+
+</head>
+<body>
+
+   
+    <header>
+        <div class="bandera">
+            <span class="rojo"></span>
+            <span class="amarillo"></span>
+            <span class="verde"></span>
+        </div>
+        <h1>Impacto del Alza de <span>Carburantes</span></h1>
+        <p>// Simulador económico · Bolivia 2025 · Programación Web I</p>
+    </header>
+
+  
+    <nav>
+        <a href="#contexto">Contexto</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#casos">Casos de estudio</a>
+        <a href="#conclusiones">Conclusiones</a>
+    </nav>
+
+   
+    <main>
+
+        <section id="contexto">
+            <p class="etiqueta">// 01 — Contexto</p>
+            <h2>¿Qué está pasando en Bolivia?</h2>
+
+            <p>
+                Bolivia atraviesa una de sus crisis económicas más profundas del siglo.
+                La escasez de dólares, la caída en la producción de gas y una deuda
+                fiscal acumulada por más de dos décadas de subsidios llevaron al Estado
+                a eliminar el precio subvencionado del carburante mediante el
+                <strong style="color:#e8e8e8">Decreto Supremo 5516</strong> a finales de 2025.
+            </p>
+            <p>
+                El impacto fue inmediato y sin precedentes: la gasolina especial subió
+                un <strong style="color:#e74c3c">86,1%</strong> (de 3,74 a 6,96 Bs/litro)
+                y el diésel un <strong style="color:#e74c3c">163%</strong>, según el
+                Growth Lab de Harvard. Bolivia cerró 2025 con una inflación acumulada del
+                24,86%&#160;— la más alta del siglo —&#160;aunque para junio de 2026 el Banco Central
+                reporta una desaceleración progresiva al 15,05% a 12 meses.
+            </p>
+            <p>
+                El dólar, que llegó a cotizarse a 20 Bs en el mercado paralelo durante el
+                pico de la crisis, se ha estabilizado: hoy el BCB fija el valor referencial
+                oficial en <strong style="color:#f1c40f">9,86 Bs</strong> (compra) y el
+                mercado informal lo sitúa en torno a <strong style="color:#f1c40f">9,91 Bs</strong>.
+            </p>
+            <div class="datos-clave">
+                <div class="dato-card">
+                    <div class="numero">+86,1%</div>
+                    <div class="label">Alza gasolina especial · DS 5516 · 3,74 → 6,96 Bs/L</div>
+                </div>
+                <div class="dato-card">
+                    <div class="numero">+163%</div>
+                    <div class="label">Alza diésel Oíl · DS 5516 · fuente: Growth Lab Harvard</div>
+                </div>
+                <div class="dato-card">
+                    <div class="numero">24,86%</div>
+                    <div class="label">Inflación acumulada 2025 · récord histórico del siglo</div>
+                </div>
+                <div class="dato-card">
+                    <div class="numero">15,05%</div>
+                    <div class="label">Inflación a 12 meses · junio 2026 · BCB · desacelerando</div>
+                </div>
+                <div class="dato-card">
+                    <div class="numero">9,91 Bs</div>
+                    <div class="label">Dólar paralelo compra · junio 2026 · estabilizado</div>
+                </div>
+                <div class="dato-card">
+                    <div class="numero">9,86 Bs</div>
+                    <div class="label">Dólar oficial referencial · BCB · 2 de junio 2026</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divisor">
+
+        <section id="simulador">
+            <p class="etiqueta">// 02 — Simulador</p>
+            <h2>Calcula tu impacto mensual</h2>
+            <p>Ingresa tus datos y descubre cuánto más pagas al mes por el alza de carburantes.</p>
+
+            <div class="formulario">
+
+                <!-- Campo 1: Tipo de carburante -->
+                <div class="campo-grupo">
+                    <label for="tipo-carburante">
+                        Tipo de carburante <span>— que usas habitualmente</span>
+                    </label>
+                    <select id="tipo-carburante" onchange="actualizarReferencia()">
+                        <optgroup label="🇧🇴 Tarifas Nacionales">
+                            <option value="gasolina_especial">Gasolina Especial / Especial+</option>
+                            <option value="diesel_oil">Diésel Oíl / Diésel Oíl+</option>
+                            <option value="gasolina_premium">Gasolina Premium+</option>
+                            <option value="diesel_uls">Diésel ULS / ULS+</option>
+                            <option value="super_etanol">Super Etanol 92</option>
+                            <option value="gnv">Gas Natural Vehicular (GNV)</option>
+                        </optgroup>
+                        <optgroup label="🌍 Placa Extranjera">
+                            <option value="gasolina_int">Gasolina Especial Internacional</option>
+                            <option value="diesel_int">Diésel Oíl Internacional</option>
+                            <option value="gnv_int">GNV Internacional</option>
+                        </optgroup>
+                    </select>
+                    <p class="precio-referencia" id="precio-ref">
+                        Precio actual: <strong id="precio-actual">6,96 Bs</strong>/litro · Precio anterior (subvencionado): <strong>3,74 Bs</strong>
+                    </p>
+                </div>
+                <div class="campo-grupo">
+                    <label for="tipo-vehiculo">
+                        ¿Qué vehículo tienes? <span>— determina el tamaño del tanque</span>
+                    </label>
+                    <select id="tipo-vehiculo" onchange="ocultarResultado()">
+                        <optgroup label="🏍 Motos">
+                            <option value="5">Moto pequeña (90–125cc) — tanque ~5 L</option>
+                            <option value="12">Moto mediana (150–200cc) — tanque ~12 L</option>
+                            <option value="18">Moto grande (250cc+) — tanque ~18 L</option>
+                        </optgroup>
+                        <optgroup label="🚗 Autos">
+                            <option value="35">Auto chico (Ej: Spark, Vitz) — tanque ~35 L</option>
+                            <option value="50" selected>Auto mediano (Ej: Corolla, Aveo) — tanque ~50 L</option>
+                            <option value="70">Auto grande / SUV (Ej: RAV4, Hilux) — tanque ~70 L</option>
+                        </optgroup>
+                        <optgroup label="🚐 Transporte">
+                            <option value="60">Minibús / Trufi — tanque ~60 L</option>
+                            <option value="200">Camión / Flota — tanque ~200 L</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="campo-grupo">
+                    <label for="nivel-carga">
+                        ¿Cuánto cargas normalmente?
+                    </label>
+                    <select id="nivel-carga" onchange="ocultarResultado()">
+                        <option value="0.25">Un cuarto del tanque (1/4)</option>
+                        <option value="0.5" selected>Medio tanque (1/2)</option>
+                        <option value="0.75">Tres cuartos (3/4)</option>
+                        <option value="1.0">Tanque lleno (full)</option>
+                    </select>
+                </div>
+                <div class="campo-grupo">
+                    <label for="veces-semana">
+                        ¿Cuántas veces cargas por semana?
+                    </label>
+                    <select id="veces-semana" onchange="ocultarResultado()">
+                        <option value="1">1 vez por semana</option>
+                        <option value="2" selected>2 veces por semana</option>
+                        <option value="3">3 veces por semana</option>
+                        <option value="4">4 veces por semana (casi diario)</option>
+                        <option value="7">Todos los días</option>
+                    </select>
+                </div>
+
+                <!-- Botón -->
+                <button class="btn-calcular" onclick="calcular()">
+                    Calcular impacto mensual →
+                </button>
+
+                <div id="resultado">
+                    <div class="resultado-header">Resultado del cálculo</div>
+                    <div class="resultado-grid">
+                        <div class="resultado-item">
+                            <div class="res-label">Gasto anterior / mes</div>
+                            <div class="res-valor" id="val-anterior">—</div>
+                        </div>
+                        <div class="resultado-item">
+                            <div class="res-label">Gasto nuevo / mes</div>
+                            <div class="res-valor" id="val-nuevo">—</div>
+                        </div>
+                        <div class="resultado-item diferencia">
+                            <div class="res-label">Pagas de más / mes</div>
+                            <div class="res-valor" id="val-diferencia">—</div>
+                        </div>
+                    </div>
+                    <div class="mensaje-alerta" id="mensaje-alerta"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="divisor">
+
+        <section id="casos">
+            <p class="etiqueta">// 03 — Casos de estudio</p>
+            <h2>Ejemplos reales de impacto</h2>
+            <p>Tres perfiles comunes de bolivianos y cómo les afecta el alza.</p>
+
+            <div class="casos-grid">
+
+                <!-- Caso 1 -->
+                <div class="caso-card">
+                    <p class="caso-titulo">// Caso 01</p>
+                    <h3>Taxista en La Paz</h3>
+                    <div class="caso-linea">
+                        <span>Litros/semana</span>
+                        <strong>40 L</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Carburante</span>
+                        <strong>Gasolina especial</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Gasto anterior/mes</span>
+                        <strong>598,40 Bs</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Gasto nuevo/mes</span>
+                        <strong>1.113,60 Bs</strong>
+                    </div>
+                    <div class="caso-diferencia">
+                        Paga 515,20 Bs más al mes — equivalente a ~74 USD al precio paralelo
+                    </div>
+                </div>
+
+                <!-- Caso 2 -->
+                <div class="caso-card">
+                    <p class="caso-titulo">// Caso 02</p>
+                    <h3>Familia con auto en Cochabamba</h3>
+                    <div class="caso-linea">
+                        <span>Litros/semana</span>
+                        <strong>20 L</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Carburante</span>
+                        <strong>Gasolina especial</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Gasto anterior/mes</span>
+                        <strong>299,20 Bs</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Gasto nuevo/mes</span>
+                        <strong>556,80 Bs</strong>
+                    </div>
+                    <div class="caso-diferencia">
+                        Paga 257,60 Bs más al mes — casi un día de salario mínimo adicional
+                    </div>
+                </div>
+
+                <!-- Caso 3 -->
+                <div class="caso-card">
+                    <p class="caso-titulo">// Caso 03</p>
+                    <h3>Transportista de carga (diésel)</h3>
+                    <div class="caso-linea">
+                        <span>Litros/semana</span>
+                        <strong>120 L</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Carburante</span>
+                        <strong>Diésel</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Gasto anterior/mes</span>
+                        <strong>1.785,60 Bs</strong>
+                    </div>
+                    <div class="caso-linea">
+                        <span>Gasto nuevo/mes</span>
+                        <strong>4.704,00 Bs</strong>
+                    </div>
+                    <div class="caso-diferencia">
+                        Paga 2.918,40 Bs más al mes — obliga a subir precios de transporte
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="divisor">
+
+        <!-- SECCIÓN 4: Conclusiones -->
+        <section id="conclusiones">
+            <p class="etiqueta">// 04 — Conclusiones</p>
+            <h2>¿Qué nos dice esta simulación?</h2>
+
+            <ul class="conclusiones-lista">
+                <li>
+                    <strong>El alza no es solo un problema de automovilistas</strong>
+                    Todo lo que se transporta en Bolivia sube de precio. Alimentos, medicamentos 
+                    y materiales de construcción se encarecen porque el costo del flete aumenta.
+                </li>
+                <li>
+                    <strong>Los más afectados son los de menores ingresos</strong>
+                    Quienes dependen del transporte público o trabajan como taxistas y 
+                    transportistas ven reducido su margen de ganancia o deben trasladar 
+                    el costo al pasajero.
+                </li>
+                <li>
+                    <strong>La crisis es estructural, no coyuntural</strong>
+                    Bolivia pasó de producir el 85% del carburante que consume a solo el 15% 
+                    del diésel y 30% de la gasolina. El subsidio fue insostenible por décadas.
+                </li>
+                <li>
+                    <strong>El simulador revela la realidad con números concretos</strong>
+                    Herramientas como esta permiten a cada ciudadano entender cuánto impacta 
+                    una política pública en su economía cotidiana, más allá de los titulares.
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><strong>Desafío Final — Programación Web I-cridtian daniel Quino Garzufino</strong></p>
+        <p style="margin-top: 6px;">Bolivia · 2025 · HTML + CSS + JavaScript</p>
+    </footer>
+
+</body>
+</html>
